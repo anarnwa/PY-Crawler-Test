@@ -17,6 +17,7 @@ while 1:
     cun=0
     cuu=0
     cou=0
+    count=0
     File = open("in.txt")
     t = open("out.txt", "w")
     if sel=="1" or sel=="":
@@ -58,7 +59,7 @@ while 1:
                         localTime = time.localtime(timeStamp) 
                         strTime = time.strftime("%Y-%m-%d", localTime) 
                         if strTime==Time:
-                            m+=1                 
+                            m+=1
         if sel=="1" or sel=="":
             if name!="":
                 print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (name ,cuu,cun ,m), file = t)   #f[0]总计    m单日
@@ -69,10 +70,12 @@ while 1:
                 print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (name ,r,cou, f[0]), file = t)   #f[0]总计    m单日
             else:
                 print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (phone ,r,cou, f[0]), file = t)
+        count+=m
         m=0
         cun=0
         cuu=0
         cou=0
+    print("总计下单次数:%d次" % (count), file = t)
     t.close()
     File.close();
     os.system("out.txt")
