@@ -12,7 +12,12 @@ while 1:
         if Time=="":
             now=datetime.datetime.now()
             Time = str(now.strftime('%Y-%m-%d'))
+    else:
+        now=datetime.datetime.now()
+        Time = str(now.strftime('%Y-%m-%d'))
     m=0
+    cun=0
+    print("%s" % (Time),file = t)
     while 1:
         line = File.readline()
         if not line:
@@ -27,13 +32,19 @@ while 1:
         y=text.split('"checkStatus":')
         u=f[1].split('000,"purchaseStatus":1')
         cou=0
-        if sel!="1":
-            if len(y)>0:
-                for r,e in enumerate(y):
-                    if r!=0:
-                        b=y[r].split(',"custAccount":')[0]
-                        if b=="1":
-                            cou+=1
+        if len(y)>0:
+            for r,e in enumerate(y):
+                if r!=0:
+                    b=y[r].split(',"custAccount":')[0]
+                    c=y[r].split(',"promteTime":')[1].split('000,"purchaseStat')[0]
+                    timeStamp=int(c)
+                    localTime = time.localtime(timeStamp) 
+                    strTime = time.strftime("%Y-%m-%d", localTime) 
+                    if strTime==Time:
+                       if b=="1":
+                           cun+=1
+                    if b=="1":
+                        cou+=1
         if sel=="1":
             if len(u)>1:
                 for i in u:
@@ -46,16 +57,17 @@ while 1:
                             m+=1
         if sel=="1":
             if name!="":
-                print("%s   %s单日下单：%d" % (name , Time ,m), file = t)   #f[0]总计    m单日
+                print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
             else:
-                print("%s   %s单日下单：%d" % (phone ,Time, m), file = t)
+                print("%s   有效扫码：%d次   下单：%d次" % (phone ,cun, m ),file = t)
         else:
             if name!="":
-                print("%s   总计推广次数：%s   有效推广次数：%s   下单次数:%s" % (name ,r,cou, f[0]), file = t)   #f[0]总计    m单日
+                print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (name ,r,cou, f[0]), file = t)   #f[0]总计    m单日
             else:
-                print("%s   总计推广次数：%s   有效推广次数：%s   下单次数:%s" % (phone ,r,cou, f[0]), file = t)
+                print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (phone ,r,cou, f[0]), file = t)
         m=0
         cou=0
+        cun=0
     t.close()
     File.close();
     os.system("out.txt")
