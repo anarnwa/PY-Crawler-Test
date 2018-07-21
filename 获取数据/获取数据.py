@@ -43,9 +43,9 @@ while 1:
                     localTime = time.localtime(timeStamp) 
                     strTime = time.strftime("%Y-%m-%d", localTime) 
                     if strTime==Time:
-                       if b=="1":
-                           cun+=1 #单日有效扫码
-                       cuu+=1   #单日总计扫码
+                        if b=="1":
+                            cun+=1 #单日有效扫码
+                        cuu+=1   #单日总计扫码
 
                     if b=="1":
                         cou+=1   #总计有效扫码
@@ -58,10 +58,10 @@ while 1:
                         localTime = time.localtime(timeStamp) 
                         strTime = time.strftime("%Y-%m-%d", localTime) 
                         if strTime==Time:
-                            m+=1                 
+                             m+=1                 
         if sel=="1" or sel=="":
             if name!="":
-                print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (name ,cuu,cun ,m), file = t)   #f[0]总计    m单日
+                 print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (name ,cuu,cun ,m), file = t)   #f[0]总计    m单日
             else:
                 print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (phone ,cuu,cun, m ),file = t)
         if sel=="2":
@@ -73,12 +73,11 @@ while 1:
         cun=0
         cuu=0
         cou=0
-    t.close()
-    File.close();
-    os.system("out.txt")
-    os.system("cls")
-    if sel!="1":
-        break
-
-    
+        t.close()
+        File.close();
+        os.system("out.txt")
+        os.system("cls")
+        if sel!="1":
+           break
+    break
 
