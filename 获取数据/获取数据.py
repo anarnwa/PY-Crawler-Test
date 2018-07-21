@@ -11,19 +11,15 @@ while 1:
             now=datetime.datetime.now()
             Time = str(now.strftime('%Y-%m-%d'))
     else:
-        if sel=="":
-            now=datetime.datetime.now()
-            Time = str(now.strftime('%Y-%m-%d'))
-        else:
-            now=datetime.datetime.now()
-            Time = str(now.strftime('%Y-%m-%d'))
+        now=datetime.datetime.now()
+        Time = str(now.strftime('%Y-%m-%d'))
     m=0
     cun=0
+    cuu=0
+    cou=0
     File = open("in.txt")
     t = open("out.txt", "w")
-    if sel=="1":
-        print("%s" % (Time),file = t)
-    if sel=="":
+    if sel=="1" or sel=="":
         print("%s" % (Time),file = t)
     while 1:
         line = File.readline()
@@ -38,7 +34,6 @@ while 1:
         f=text.split('"promtePurchaseCount":')[1].split(',"activityStartTime":')
         y=text.split('"checkStatus":')
         u=f[1].split('000,"purchaseStatus":1')
-        cou=0
         if len(y)>0:
             for r,e in enumerate(y):
                 if r!=0:
@@ -49,10 +44,12 @@ while 1:
                     strTime = time.strftime("%Y-%m-%d", localTime) 
                     if strTime==Time:
                        if b=="1":
-                           cun+=1
+                           cun+=1 #单日有效扫码
+                       cuu+=1   #单日总计扫码
+
                     if b=="1":
-                        cou+=1
-        if sel=="1":
+                        cou+=1   #总计有效扫码
+        if sel=="1" or sel=="":
             if len(u)>1:
                 for i in u:
                     p=i[::-1].split(':')[0][::-1]
@@ -61,35 +58,21 @@ while 1:
                         localTime = time.localtime(timeStamp) 
                         strTime = time.strftime("%Y-%m-%d", localTime) 
                         if strTime==Time:
-                            m+=1
-        if sel=="":
-            if len(u)>1:
-                for i in u:
-                    p=i[::-1].split(':')[0][::-1]
-                    if p!='true}':
-                        timeStamp=int(p)
-                        localTime = time.localtime(timeStamp) 
-                        strTime = time.strftime("%Y-%m-%d", localTime) 
-                        if strTime==Time:
-                            m+=1                   
-        if sel=="1":
+                            m+=1                 
+        if sel=="1" or sel=="":
             if name!="":
-                print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
+                print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (name ,cuu,cun ,m), file = t)   #f[0]总计    m单日
             else:
-                print("%s   有效扫码：%d次   下单：%d次" % (phone ,cun, m ),file = t)
-        if sel=="":
-            if name!="":
-                print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
-            else:
-                print("%s   有效扫码：%d次   下单：%d次" % (phone ,cun, m ),file = t)
+                print("%s   总计扫码：%d次    有效扫码：%d次   下单：%d次" % (phone ,cuu,cun, m ),file = t)
         if sel=="2":
             if name!="":
                 print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (name ,r,cou, f[0]), file = t)   #f[0]总计    m单日
             else:
                 print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (phone ,r,cou, f[0]), file = t)
         m=0
-        cou=0
         cun=0
+        cuu=0
+        cou=0
     t.close()
     File.close();
     os.system("out.txt")
