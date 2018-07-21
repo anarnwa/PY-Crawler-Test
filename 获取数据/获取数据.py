@@ -82,7 +82,7 @@ while 1:
                 print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
             else:
                 print("%s   有效扫码：%d次   下单：%d次" % (phone ,cun, m ),file = t)
-        else:
+        if sel=="2":
             if name!="":
                 print("%s   总计推广次数：%s次   有效推广次数：%s次   下单次数:%s次" % (name ,r,cou, f[0]), file = t)   #f[0]总计    m单日
             else:
