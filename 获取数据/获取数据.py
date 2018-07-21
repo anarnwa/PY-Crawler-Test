@@ -4,8 +4,6 @@ import time
 import datetime
 sel=input("选择：\n 1.每日信息     2.总计信息\n")
 while 1:
-    File = open("in.txt")
-    t = open("out.txt", "w")
     Time=""
     if sel=="1":
         Time = input("输入查询日期：****-**-**\n四位年份-两位月份-两位日期\n直接回车则默认为今日\n")
@@ -13,11 +11,20 @@ while 1:
             now=datetime.datetime.now()
             Time = str(now.strftime('%Y-%m-%d'))
     else:
-        now=datetime.datetime.now()
-        Time = str(now.strftime('%Y-%m-%d'))
+        if sel=="":
+            now=datetime.datetime.now()
+            Time = str(now.strftime('%Y-%m-%d'))
+        else:
+            now=datetime.datetime.now()
+            Time = str(now.strftime('%Y-%m-%d'))
     m=0
     cun=0
-    print("%s" % (Time),file = t)
+    File = open("in.txt")
+    t = open("out.txt", "w")
+    if sel=="1":
+        print("%s" % (Time),file = t)
+    if sel=="":
+        print("%s" % (Time),file = t)
     while 1:
         line = File.readline()
         if not line:
@@ -55,7 +62,22 @@ while 1:
                         strTime = time.strftime("%Y-%m-%d", localTime) 
                         if strTime==Time:
                             m+=1
+        if sel=="":
+            if len(u)>1:
+                for i in u:
+                    p=i[::-1].split(':')[0][::-1]
+                    if p!='true}':
+                        timeStamp=int(p)
+                        localTime = time.localtime(timeStamp) 
+                        strTime = time.strftime("%Y-%m-%d", localTime) 
+                        if strTime==Time:
+                            m+=1                   
         if sel=="1":
+            if name!="":
+                print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
+            else:
+                print("%s   有效扫码：%d次   下单：%d次" % (phone ,cun, m ),file = t)
+        if sel=="":
             if name!="":
                 print("%s   有效扫码：%d次   下单：%d次" % (name ,cun ,m), file = t)   #f[0]总计    m单日
             else:
